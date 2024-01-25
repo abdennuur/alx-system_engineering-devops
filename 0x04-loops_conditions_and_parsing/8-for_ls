@@ -5,6 +5,6 @@
 #  Where only part of the name after the first dash displayed
 
 for i in *; do
-    echo "$i" | cut -d '-' -i 2
+    echo "$i" | cut -d '-' -f 2
 
 done
