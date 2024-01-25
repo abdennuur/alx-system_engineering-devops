@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Displays FizzBuzz when nmbr is a multiple of 3 and 5 fizz for 3 and buzz 5
+for ((nbr=1;nbr<=100;nbr++))
+do
+    if ((nbr % 15 == 0))
+    then
+        echo "FizzBuzz"
+    elif ((nbr % 3 == 0))
+    then
+        echo "Fizz"
+    elif ((nbr % 5 == 0))
+    then
+        echo "Buzz"
+    else
+        echo "$nbr"
+    fi
+done
