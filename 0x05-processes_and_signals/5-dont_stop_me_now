@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# -Stopped 4-to_infinity_and_beyond process
+# in the previous task
+
+kill "$(pgrep -f 4-to_infinity_and_beyond)"
