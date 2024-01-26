@@ -20,6 +20,8 @@ Resources
 -   [Linux PID](https://alx-intranet.hbtn.io/rltoken/zh33PXDR6w_qyu7zXUezmw "Linux PID")
 -   [Linux process](https://alx-intranet.hbtn.io/rltoken/px2TdWSjVO8i9SB5gHchAw "Linux process")
 -   [Linux signal](https://alx-intranet.hbtn.io/rltoken/0NIee0VXMrEp36CFR85GIA "Linux signal")
+-   [Process management in linux](https://alx-intranet.hbtn.io/rltoken/XlYrlghzNZ6Z1cbI_IPaiA "Process management in linux")
+
 
 **man or help**:
 
