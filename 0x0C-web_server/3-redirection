@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+#To configure your Nginx server so that /redirect_me redirecting to another page.
+#redirection must be a “301 Moved Permanently”
+STRING="Hello World!"
+REDIRECT="\n\tlocation /redirect_me {\n\t\treturn 301 https://www.youtube.com/watch?v=QH2-TGUlwu4; \n\t}\n"
+FILE="/etc/nginx/sites-available/default"
+apt-get -y update
+apt-get -y install nginx
+ufw allow 'Nginx HTTP'
+echo "$STRING" > /var/www/html/index.nginx-debian.html
+sed -i "37i\ $REDIRECT" "$FILE"
+service nginx restart
