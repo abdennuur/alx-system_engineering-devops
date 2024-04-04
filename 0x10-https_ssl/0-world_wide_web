@@ -1,26 +1,34 @@
 #!/usr/bin/env bash
 # display info about subdomains.
-function domain_check {
-	domain_names=("www" "lb-01" "web-01" "web-02")
-
-	for i in "${domain_names[@]}";
-	do
-		dig "${i}"."$1" | grep -A1 'ANSWER SECTION:' | \
-		awk 'FNR == 2 {printf "The subdomain %s is a %s record and points to %s\n", var, $4, $5}' var="$i"
-	done
+display_info() {
+    local subdomain=$1
+    local domain=$2
+    local dig_output=$(dig ${subdomain}.${domain} | awk '/ANSWER SECTION/{getline; print}')
+    local record_type=$(echo "$dig_output" | awk '{print $4}')
+    local destination=$(echo "$dig_output" | awk '{print $5}')
+    echo "The subdomain ${subdomain} is a ${record_type} record and points to ${destination}"
 }
 
-function subdomain_check {
-	dig "${2}"."$1" | grep -A1 'ANSWER SECTION:' | \
-	awk 'FNR == 2 {printf "The subdomain %s is a %s record and points to %s\n", var, $4, $5}' var="$2"
+# Main script logic
+main() {
+    local domain=$1
+    local subdomain=$2
+
+    if [ -z "$subdomain" ]; then
+        subdomain_list=("www" "lb-01" "web-01" "web-02")
+        for sub in "${subdomain_list[@]}"; do
+            display_info "$sub" "$domain"
+        done
+    else
+        display_info "$subdomain" "$domain"
+    fi
 }
 
-if [ $# -lt 1 ]
-then
-	echo "*** Provide domain name ***"
-elif [ $# -eq 1 ]
-then
-	domain_check "$1";
-else
-	subdomain_check "$1" "$2";
+# Check if required arguments are provided
+if [ "$#" -lt 1 ]; then
+    echo "Usage: $0 <domain> [<subdomain>]"
+    exit 1
 fi
+
+main "$@"
+
