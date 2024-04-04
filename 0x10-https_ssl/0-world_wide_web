@@ -1,15 +1,19 @@
 #!/usr/bin/env bash
 # display info about subdomains.
+
 display_info() {
     local subdomain=$1
     local domain=$2
     local dig_output=$(dig ${subdomain}.${domain} | awk '/ANSWER SECTION/{getline; print}')
-    local record_type=$(echo "$dig_output" | awk '{print $4}')
-    local destination=$(echo "$dig_output" | awk '{print $5}')
-    echo "The subdomain ${subdomain} is a ${record_type} record and points to ${destination}"
+    if [[ -n "$dig_output" ]]; then
+        local record_type=$(echo "$dig_output" | awk '{print $4}')
+        local destination=$(echo "$dig_output" | awk '{print $5}')
+        echo "The subdomain ${subdomain} is a ${record_type} record and points to ${destination}"
+    else
+        echo "No information found for subdomain ${subdomain}"
+    fi
 }
 
-# Main script logic
 main() {
     local domain=$1
     local subdomain=$2
@@ -24,11 +28,9 @@ main() {
     fi
 }
 
-# Check if required arguments are provided
 if [ "$#" -lt 1 ]; then
     echo "Usage: $0 <domain> [<subdomain>]"
     exit 1
 fi
 
 main "$@"
-
