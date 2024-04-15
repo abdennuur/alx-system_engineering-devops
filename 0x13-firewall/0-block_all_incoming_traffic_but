@@ -1,12 +1,25 @@
-#!/usr/bin/env bash
-#To onfigures ufw firewall to block all incoming traffics
-#except for the TCP ports 22, 443, 80.
-apt-get install ufw
+# to Check if the script is run as root
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root" 
+   exit 1
+fi
+
+# to install UFW if not already installed
+if ! command -v ufw &> /dev/null; then
+    apt-get update
+    apt-get install ufw -y
+fi
+
+# to Enable IPv6
 sed -i 's/IPV6=.*/IPV6=yes/' /etc/default/ufw
-ufw disable 
+
+# to Enable UFW and set defaults
+ufw disable
 ufw enable
 ufw default deny incoming
 ufw default allow outgoing
+
+# Allow necesary ports
 ufw allow 22/tcp
 ufw allow 443/tcp
 ufw allow 80/tcp
