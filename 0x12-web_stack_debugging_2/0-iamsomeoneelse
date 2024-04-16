@@ -1,21 +1,27 @@
 #!/usr/bin/env bash
 
-# to check if script is run as root
+# Check if the script is run as root
 if [ "$EUID" -ne 0 ]; then
     echo "Error: This script must be run as root"
     exit 1
 fi
 
-# To remove default Nginx config file
+# Remove the default Nginx configuration file if it exists
 if [ -e /etc/nginx/sites-enabled/default ]; then
     rm /etc/nginx/sites-enabled/default || { echo "Error: Failed to remove default configuration file"; exit 1; }
 fi
 
-# To Create a symbolic link to available Nginx configuration file
-ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default || { echo "Error: Failed to create symbolic link"; exit 1; }
+# Check if the default Nginx configuration file exists
+if [ -e /etc/nginx/sites-available/default ]; then
+    # Create a symbolic link to the available Nginx configuration file
+    ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default || { echo "Error: Failed to create symbolic link"; exit 1; }
 
-# Restart Nginx service
-service nginx restart || { echo "Error: Failed to restart Nginx service"; exit 1; }
+    # Restart Nginx service using systemctl
+    systemctl restart nginx || { echo "Error: Failed to restart Nginx service"; exit 1; }
 
-echo "Nginx configuration has been fixed. Now listening on port 80."
+    echo "Nginx configuration has been fixed. Now listening on port 80."
+else
+    echo "Error: The default Nginx configuration file does not exist"
+    exit 1
+fi
 
