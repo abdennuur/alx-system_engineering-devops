@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# what keep Ubuntu containers Nginx installation frm listening on port 8
+# to configure nginx t run and listn to port 80
+
+rm /etc/nginx/sites-enabled/default
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+service nginx restart
