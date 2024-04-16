@@ -1,26 +1,25 @@
-#!/usr/bin/env bash
-# Check if the script is run as root
+# to Check if the script is run as root
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 
    exit 1
 fi
 
-# Install UFW if not already installed
+# to install UFW if not already installed
 if ! command -v ufw &> /dev/null; then
     apt-get update
     apt-get install ufw -y
 fi
 
-# Enable IPv6
+# to Enable IPv6
 sed -i 's/IPV6=.*/IPV6=yes/' /etc/default/ufw
 
-# Enable UFW and set defaults
+# to Enable UFW and set defaults
 ufw disable
 ufw enable
 ufw default deny incoming
 ufw default allow outgoing
 
-# Set rules to reject incoming connections on specific ports
-ufw reject 22/tcp     # SSH
-ufw reject 443/tcp    # HTTPS SSL
-ufw reject 80/tcp     # HTTP
+# Allow necesary ports
+ufw allow 22/tcp
+ufw allow 443/tcp
+ufw allow 80/tcp
