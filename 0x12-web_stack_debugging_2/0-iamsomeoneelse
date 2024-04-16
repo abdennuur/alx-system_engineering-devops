@@ -1,7 +1,21 @@
 #!/usr/bin/env bash
-# what keep Ubuntu containers Nginx installation frm listening on port 8
-# to configure nginx t run and listn to port 80
 
-rm /etc/nginx/sites-enabled/default
-ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-service nginx restart
+# to check if script is run as root
+if [ "$EUID" -ne 0 ]; then
+    echo "Error: This script must be run as root"
+    exit 1
+fi
+
+# To remove default Nginx config file
+if [ -e /etc/nginx/sites-enabled/default ]; then
+    rm /etc/nginx/sites-enabled/default || { echo "Error: Failed to remove default configuration file"; exit 1; }
+fi
+
+# To Create a symbolic link to available Nginx configuration file
+ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default || { echo "Error: Failed to create symbolic link"; exit 1; }
+
+# Restart Nginx service
+service nginx restart || { echo "Error: Failed to restart Nginx service"; exit 1; }
+
+echo "Nginx configuration has been fixed. Now listening on port 80."
+
