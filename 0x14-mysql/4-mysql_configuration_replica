@@ -1,0 +1,9 @@
+# MySQL replica config file
+
+[mysqld]
+server-id = 2
+log_bin = /var/log/mysql/mysql-bin.log
+binlog_do_db = tyrell_corp
+relay-log = /var/log/mysql/mysql-relay-bin.log
+
+

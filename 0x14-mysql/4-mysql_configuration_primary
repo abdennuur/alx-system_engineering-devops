@@ -1,0 +1,9 @@
+# MySQL primary config file
+
+[mysqld]
+# bind-address = 127.0.0.1 <-- Comment out this line
+
+server-id = 1
+log_bin = /var/log/mysql/mysql-bin.log
+binlog_do_db = tyrell_corp
+
