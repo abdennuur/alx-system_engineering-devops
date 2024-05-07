@@ -24,4 +24,4 @@ def top_ten(subreddit):
             title = dt.get("title")
             print(title)
     else:
-        print(None)
+        print("None")
