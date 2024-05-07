@@ -16,18 +16,18 @@ def recurse(subreddit, hot_list=[], after=""):
 
     - If not valid subreddit, return None.
     """
-    req = requests.get(
+    reQ = requests.get(
         "https://www.reddit.com/r/{}/hot.json".format(subreddit),
         headers={"User-Agent": "Custom"},
         params={"after": after},
     )
 
-    if req.status_code == 200:
-        for get_data in req.json().get("data").get("children"):
+    if reQ.status_code == 200:
+        for get_data in reQ.json().get("data").get("children"):
             dat = get_data.get("data")
             title = dat.get("title")
             hot_list.append(title)
-        after = req.json().get("data").get("after")
+        after = reQ.json().get("data").get("after")
 
         if after is None:
             return hot_list
