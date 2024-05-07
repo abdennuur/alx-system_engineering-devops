@@ -20,8 +20,8 @@ def top_ten(subreddit):
 
     if req.status_code == 200:
         for get_data in req.json().get("data").get("children"):
-            Dat = get_data.get("data")
-            title = Dat.get("title")
+            dat = get_data.get("data")
+            title = dat.get("title")
             print(title)
     else:
         print(None)
