@@ -31,11 +31,11 @@ def count_words(subreddit, word_list, after=None, counts={}):
     data = response.json()
     chldrn = data["data"]["children"]
 
-    for post in chldrn:
-        title = post["data"]["title"].lower()
-        for wrd in word_list:
-            if wrd.lower() in title:
-                counts[wrd] = counts.get(wrd, 0) + title.count(wrd.lower())
+    for pst in chldrn:
+        title = pst["data"]["title"].lower()
+        for word in word_list:
+            if word.lower() in title:
+                counts[word] = counts.get(word, 0) + title.count(word.lower())
 
     after = data["data"]["after"]
     if after:
@@ -43,5 +43,5 @@ def count_words(subreddit, word_list, after=None, counts={}):
     else:
         sorted_Cnts = sorted(counts.items(),
                                key=lambda x: (-x[1], x[0].lower()))
-        for wrd, count in sorted_Cnts:
-            print(f"{wrd.lower()}: {count}")
+        for word, count in sorted_Cnts:
+            print(f"{word.lower()}: {count}")
