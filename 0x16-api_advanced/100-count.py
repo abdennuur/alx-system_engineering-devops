@@ -29,9 +29,9 @@ def count_words(subreddit, word_list, after=None, counts={}):
         return
 
     data = response.json()
-    children = data["data"]["children"]
+    chldrn = data["data"]["children"]
 
-    for post in children:
+    for post in chldrn:
         title = post["data"]["title"].lower()
         for word in word_list:
             if word.lower() in title:
